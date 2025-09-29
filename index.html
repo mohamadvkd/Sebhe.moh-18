@@ -1,0 +1,3056 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>سبحة إلكترونية متطورة</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <style>
+    /* ===== RESET AND BASE STYLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: rgba(0,0,0,0.5);
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background: linear-gradient(135deg, #f0f8ff 0%, #e3f2fd 100%);
+      color: #333;
+      text-align: center;
+      padding: 15px;
+      direction: rtl;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    /* ===== DARK MODE ===== */
+    body.dark-mode {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #ffffff;
+    }
+    
+    body.dark-mode .stat-card {
+      background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
+      color: #ffffff;
+      border: 1px solid #444;
+    }
+    
+    body.dark-mode .theme-panel {
+      background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
+      color: #ffffff;
+      border: 1px solid #444;
+    }
+    
+    body.dark-mode .settings-panel {
+      background: linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
+      color: #ffffff;
+      border: 1px solid #444;
+    }
+    
+    body.dark-mode .btn {
+      color: white;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    body.dark-mode .subtitle {
+      color: #ccc;
+    }
+    
+    body.dark-mode .stat-label {
+      color: #ccc;
+    }
+    
+    body.dark-mode input, 
+    body.dark-mode select {
+      background: #2d2d2d;
+      color: white;
+      border: 1px solid #444;
+    }
+
+    /* ===== CONTAINER AND LAYOUT ===== */
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 15px;
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .header {
+      margin-bottom: 30px;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    body.dark-mode .header {
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #2e7d32, #4caf50);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    body.dark-mode h1 {
+      background: linear-gradient(135deg, #4caf50, #81c784);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    /* ===== MAIN CIRCLE DESIGN ===== */
+    .circle-container {
+      margin: 30px auto;
+      width: 220px;
+      height: 220px;
+      position: relative;
+      perspective: 1000px;
+    }
+    
+    .circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: table;
+      cursor: pointer;
+      border: 6px solid rgba(255,255,255,0.8);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2),
+                  inset 0 0 20px rgba(255,255,255,0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(135deg, #2e7d32, #4caf50);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+    }
+    
+    body.dark-mode .circle {
+      border-color: rgba(255,255,255,0.1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4),
+                  inset 0 0 20px rgba(255,255,255,0.1);
+    }
+    
+    .circle:active {
+      transform: scale(0.95) rotateX(5deg);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    
+    .circle-content {
+      display: table-cell;
+      vertical-align: middle;
+      color: white;
+      font-weight: bold;
+      position: relative;
+      z-index: 2;
+      transform: translateZ(20px);
+    }
+    
+    .count {
+      font-size: 42px;
+      display: block;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+    
+    .tasbih-text {
+      font-size: 18px;
+      display: block;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .progress-ring {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      width: calc(100% + 12px);
+      height: calc(100% + 12px);
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0%,
+        rgba(255,255,255,0.6) 10%,
+        transparent 20%
+      );
+      animation: rotate 3s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .circle.active .progress-ring {
+      opacity: 1;
+    }
+
+    /* ===== THEME EFFECTS ===== */
+    .theme-effect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      opacity: 0.4;
+      z-index: 1;
+      transition: all 0.5s ease;
+    }
+    
+    .gold-effect {
+      background: radial-gradient(circle at 30% 30%, #ffd700 0%, #ffed4e 30%, transparent 70%),
+                  radial-gradient(circle at 70% 70%, #ffc400 0%, #ffdd5e 30%, transparent 70%);
+      animation: goldSpin 4s linear infinite;
+    }
+    
+    @keyframes goldSpin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    
+    .snow-effect {
+      background: 
+        radial-gradient(circle at 20% 20%, #ffffff 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, #e3f2fd 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, #f5f5f5 0%, transparent 50%);
+      animation: snowFloat 6s ease-in-out infinite;
+    }
+    
+    @keyframes snowFloat {
+      0%, 100% { 
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+      }
+      33% { 
+        transform: translateY(-15px) rotate(120deg);
+        opacity: 0.6;
+      }
+      66% { 
+        transform: translateY(10px) rotate(240deg);
+        opacity: 0.4;
+      }
+    }
+    
+    .fire-effect {
+      background: 
+        radial-gradient(circle at 30% 30%, #ff5722 0%, #ff8a50 20%, transparent 50%),
+        radial-gradient(circle at 70% 70%, #ff9800 0%, #ffb74d 20%, transparent 50%);
+      animation: fireFlicker 2s ease-in-out infinite;
+    }
+    
+    @keyframes fireFlicker {
+      0%, 100% { 
+        transform: scale(1) rotate(0deg);
+        opacity: 0.5;
+      }
+      25% { 
+        transform: scale(1.05) rotate(5deg);
+        opacity: 0.7;
+      }
+      75% { 
+        transform: scale(0.95) rotate(-5deg);
+        opacity: 0.3;
+      }
+    }
+    
+    .crystal-effect {
+      background: conic-gradient(
+        from 0deg,
+        #e1bee7,
+        #ce93d8,
+        #ba68c8,
+        #ab47bc,
+        #e1bee7
+      );
+      animation: crystalRotate 8s linear infinite;
+      opacity: 0.3;
+    }
+    
+    @keyframes crystalRotate {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.05); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    
+    .forest-effect {
+      background: 
+        radial-gradient(circle at 25% 25%, #388e3c 0%, transparent 40%),
+        radial-gradient(circle at 75% 75%, #4caf50 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, #66bb6a 0%, transparent 60%);
+      animation: forestPulse 4s ease-in-out infinite;
+    }
+    
+    @keyframes forestPulse {
+      0%, 100% { 
+        transform: scale(1);
+        opacity: 0.4;
+      }
+      50% { 
+        transform: scale(1.08);
+        opacity: 0.6;
+      }
+    }
+    
+    .space-effect {
+      background: 
+        radial-gradient(circle at 20% 20%, #7c4dff 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, #651fff 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, #b388ff 0%, transparent 60%);
+      animation: spaceGlow 3s ease-in-out infinite;
+    }
+    
+    @keyframes spaceGlow {
+      0%, 100% { 
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 0.7;
+        transform: scale(1.1);
+      }
+    }
+    
+    .water-effect {
+      background: 
+        radial-gradient(circle at 30% 30%, #29b6f6 0%, transparent 40%),
+        radial-gradient(circle at 70% 70%, #4fc3f7 0%, transparent 40%);
+      animation: waterFlow 5s ease-in-out infinite;
+    }
+    
+    @keyframes waterFlow {
+      0%, 100% { 
+        transform: translateY(0px) scale(1);
+      }
+      50% { 
+        transform: translateY(-10px) scale(1.05);
+      }
+    }
+    
+    .sunset-effect {
+      background: conic-gradient(
+        from 45deg,
+        #ff6f00,
+        #ff9800,
+        #ffb74d,
+        #ffcc80,
+        #ff6f00
+      );
+      animation: sunsetRotate 6s linear infinite;
+      opacity: 0.4;
+    }
+    
+    @keyframes sunsetRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ===== STATS CONTAINER ===== */
+    .stats-container {
+      margin: 30px auto;
+      max-width: 400px;
+      overflow: hidden;
+    }
+    
+    .stat-card {
+      width: 48%;
+      float: right;
+      padding: 20px;
+      margin: 1%;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(255,255,255,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stat-card:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #2e7d32, #4caf50);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .stat-card:hover:before {
+      transform: scaleX(1);
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2e7d32;
+      margin-bottom: 5px;
+      font-weight: 800;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: #666;
+      font-weight: 600;
+    }
+    
+    .stat-icon {
+      font-size: 20px;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+
+    /* ===== BUTTONS DESIGN ===== */
+    .buttons-container {
+      margin: 30px auto;
+      max-width: 400px;
+      overflow: hidden;
+    }
+    
+    .btn {
+      width: 48%;
+      float: right;
+      padding: 16px;
+      margin: 1%;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(135deg, #2e7d32, #4caf50);
+      color: white;
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn:hover:before {
+      left: 100%;
+    }
+    
+    .btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #ff9800, #ffb74d);
+    }
+    
+    .btn-accent {
+      background: linear-gradient(135deg, #2196f3, #64b5f6);
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    .dark-mode-btn {
+      background: linear-gradient(135deg, #666, #999);
+    }
+
+    /* ===== LEVEL BADGE ===== */
+    .level-badge {
+      padding: 15px 30px;
+      border-radius: 25px;
+      display: inline-block;
+      margin: 20px auto;
+      font-size: 16px;
+      color: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      background: linear-gradient(135deg, #2e7d32, #ff9800);
+      border: 2px solid rgba(255,255,255,0.3);
+      font-weight: 700;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    body.dark-mode .level-badge {
+      background: linear-gradient(135deg, #388e3c, #ffb74d);
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+    
+    .level-badge:before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      animation: shine 3s linear infinite;
+    }
+    
+    @keyframes shine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    /* ===== PANELS ===== */
+    .panel {
+      display: none;
+      margin: 25px auto;
+      padding: 25px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      max-width: 400px;
+      border: 1px solid rgba(255,255,255,0.5);
+      animation: slideDown 0.3s ease-out;
+    }
+    
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .panel h3 {
+      margin-bottom: 20px;
+      color: #2e7d32;
+      font-size: 20px;
+    }
+    
+    body.dark-mode .panel h3 {
+      color: #4caf50;
+    }
+    
+    .theme-grid {
+      overflow: hidden;
+      margin: 0 -5px;
+    }
+    
+    .theme-option {
+      width: 23%;
+      float: right;
+      margin: 1%;
+      padding: 15px 5px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: white;
+      font-size: 12px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .theme-option:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.1);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .theme-option:hover:before {
+      opacity: 1;
+    }
+    
+    .theme-option:active {
+      transform: scale(0.95);
+    }
+    
+    .theme-option.active {
+      box-shadow: 0 0 0 3px white, 0 0 0 5px #333;
+      transform: scale(1.05);
+    }
+    
+    body.dark-mode .theme-option.active {
+      box-shadow: 0 0 0 3px #333, 0 0 0 5px white;
+    }
+
+    /* ===== SETTINGS PANEL ===== */
+    .settings-panel {
+      display: none;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    .setting-group {
+      margin-bottom: 20px;
+      text-align: right;
+    }
+    
+    .setting-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    body.dark-mode .setting-group label {
+      color: #fff;
+    }
+    
+    .setting-group select,
+    .setting-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: white;
+      color: #333;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .setting-group select:focus,
+    .setting-group input:focus {
+      outline: none;
+      border-color: #4caf50;
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    }
+
+    /* ===== NOTIFICATIONS ===== */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #4caf50, #66bb6a);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      animation: slideInRight 0.3s ease-out;
+      font-weight: 600;
+    }
+    
+    body.dark-mode .notification {
+      background: linear-gradient(135deg, #388e3c, #4caf50);
+    }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    .notification.hide {
+      animation: slideOutRight 0.3s ease-in;
+    }
+    
+    @keyframes slideOutRight {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+
+    /* ===== ACHIEVEMENTS ===== */
+    .achievements-panel {
+      display: none;
+    }
+    
+    .achievement-item {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      text-align: right;
+      border-left: 4px solid #4caf50;
+      transition: all 0.3s ease;
+    }
+    
+    body.dark-mode .achievement-item {
+      background: linear-gradient(135deg, #2d2d2d, #3d3d3d);
+      border-left-color: #4caf50;
+    }
+    
+    .achievement-item.unlocked {
+      border-left-color: #ffd700;
+      background: linear-gradient(135deg, #fff8e1, #ffecb3);
+    }
+    
+    body.dark-mode .achievement-item.unlocked {
+      background: linear-gradient(135deg, #3d3d3d, #4d4d4d);
+    }
+    
+    .achievement-icon {
+      font-size: 24px;
+      float: right;
+      margin-left: 10px;
+    }
+    
+    .achievement-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .achievement-desc {
+      font-size: 12px;
+      color: #666;
+      opacity: 0.8;
+    }
+    
+    body.dark-mode .achievement-desc {
+      color: #ccc;
+    }
+
+    /* ===== CONFetti EFFECT ===== */
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      animation: confettiFall 3s ease-in-out forwards;
+      z-index: 999;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100vh) rotate(0deg) scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg) scale(1);
+        opacity: 0;
+      }
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 480px) {
+      .container {
+        padding: 10px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      .circle-container {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .count {
+        font-size: 36px;
+      }
+      
+      .btn {
+        padding: 14px;
+        font-size: 14px;
+      }
+      
+      .stat-card {
+        padding: 15px;
+      }
+      
+      .stat-value {
+        font-size: 20px;
+      }
+      
+      .theme-option {
+        padding: 12px 5px;
+        font-size: 11px;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .circle-container {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .count {
+        font-size: 32px;
+      }
+      
+      .buttons-container {
+        max-width: 300px;
+      }
+      
+      .btn {
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+    
+    /* ===== UTILITY CLASSES ===== */
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .text-left { text-align: left; }
+    .mb-10 { margin-bottom: 10px; }
+    .mb-20 { margin-bottom: 20px; }
+    .mt-10 { margin-top: 10px; }
+    .mt-20 { margin-top: 20px; }
+    .hidden { display: none; }
+    .fade-in { animation: fadeIn 0.5s ease; }
+    .pulse { animation: pulse 0.6s ease; }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .vibrate { animation: vibrate 0.3s ease; }
+    
+    @keyframes vibrate {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-2px); }
+      75% { transform: translateX(2px); }
+    }
+
+    /* ===== LOADING ANIMATION ===== */
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #2e7d32, #4caf50);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      animation: fadeOut 0.5s ease 1s forwards;
+    }
+    
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+    
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-top: 5px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ===== THEME-SPECIFIC STYLES ===== */
+    
+    /* Snow Theme */
+    body.theme-snow {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      color: #1565c0;
+    }
+    
+    body.theme-snow .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-snow .circle {
+      background: linear-gradient(135deg, #29b6f6, #4fc3f7);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(33,150,243,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-snow .btn {
+      background: linear-gradient(135deg, #29b6f6, #4fc3f7);
+    }
+    
+    body.theme-snow .btn-secondary {
+      background: linear-gradient(135deg, #0277bd, #0288d1);
+    }
+    
+    body.theme-snow .btn-accent {
+      background: linear-gradient(135deg, #4fc3f7, #81d4fa);
+    }
+    
+    body.theme-snow .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-snow .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(225,245,254,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-snow .stat-value {
+      color: #0277bd;
+    }
+    
+    body.theme-snow .level-badge {
+      background: linear-gradient(135deg, #29b6f6, #ff9800);
+    }
+    
+    body.theme-snow .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(225,245,254,0.9));
+    }
+    
+    /* Fire Theme */
+    body.theme-fire {
+      background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+      color: #c62828;
+    }
+    
+    body.theme-fire .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-fire .circle {
+      background: linear-gradient(135deg, #ff5722, #ff7043);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(244,67,54,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-fire .btn {
+      background: linear-gradient(135deg, #ff5722, #ff7043);
+    }
+    
+    body.theme-fire .btn-secondary {
+      background: linear-gradient(135deg, #d84315, #e64a19);
+    }
+    
+    body.theme-fire .btn-accent {
+      background: linear-gradient(135deg, #ff8a65, #ffab91);
+    }
+    
+    body.theme-fire .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-fire .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,235,238,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-fire .stat-value {
+      color: #d84315;
+    }
+    
+    body.theme-fire .level-badge {
+      background: linear-gradient(135deg, #ff5722, #ff9800);
+    }
+    
+    body.theme-fire .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,235,238,0.9));
+    }
+    
+    /* Space Theme */
+    body.theme-space {
+      background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+      color: #e8eaf6;
+    }
+    
+    body.theme-space .header {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    body.theme-space .circle {
+      background: linear-gradient(135deg, #7c4dff, #651fff);
+      border: 6px solid rgba(255,255,255,0.8);
+      box-shadow: 0 8px 32px rgba(103,58,183,0.5),
+                  inset 0 0 20px rgba(255,255,255,0.3);
+    }
+    
+    body.theme-space .btn {
+      background: linear-gradient(135deg, #7c4dff, #651fff);
+    }
+    
+    body.theme-space .btn-secondary {
+      background: linear-gradient(135deg, #5e35b1, #512da8);
+    }
+    
+    body.theme-space .btn-accent {
+      background: linear-gradient(135deg, #b388ff, #7c4dff);
+    }
+    
+    body.theme-space .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-space .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(30,30,70,0.2));
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #e8eaf6;
+    }
+    
+    body.theme-space .stat-value {
+      color: #b388ff;
+    }
+    
+    body.theme-space .level-badge {
+      background: linear-gradient(135deg, #7c4dff, #ff9800);
+    }
+    
+        body.theme-space .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(30,30,70,0.2));
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #e8eaf6;
+    }
+    
+    /* Golden Theme */
+    body.theme-golden {
+      background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+      color: #ff6f00;
+    }
+    
+        body.theme-golden .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-golden .circle {
+      background: linear-gradient(135deg, #ffd700, #ffc400);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(255,193,7,0.4),
+                  inset 0 0 20px rgba(255,255,255,0.6);
+    }
+    
+    body.theme-golden .btn {
+      background: linear-gradient(135deg, #ffd700, #ffc400);
+      color: #ff6f00;
+    }
+    
+    body.theme-golden .btn-secondary {
+      background: linear-gradient(135deg, #ffab00, #ff8f00);
+      color: white;
+    }
+    
+    body.theme-golden .btn-accent {
+      background: linear-gradient(135deg, #ffd740, #ffc400);
+      color: #ff6f00;
+    }
+    
+    body.theme-golden .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+      color: white;
+    }
+    
+    body.theme-golden .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,248,225,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-golden .stat-value {
+      color: #ff8f00;
+    }
+    
+    body.theme-golden .level-badge {
+      background: linear-gradient(135deg, #ffd700, #ff9800);
+      color: #ff6f00;
+    }
+    
+    body.theme-golden .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,248,225,0.9));
+    }
+    
+    /* Crystal Theme */
+    body.theme-crystal {
+      background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+      color: #7b1fa2;
+    }
+    
+    body.theme-crystal .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-crystal .circle {
+      background: linear-gradient(135deg, #e1bee7, #ce93d8);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(186,104,200,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-crystal .btn {
+      background: linear-gradient(135deg, #e1bee7, #ce93d8);
+      color: #7b1fa2;
+    }
+    
+    body.theme-crystal .btn-secondary {
+      background: linear-gradient(135deg, #ba68c8, #ab47bc);
+      color: white;
+    }
+    
+    body.theme-crystal .btn-accent {
+      background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+      color: #7b1fa2;
+    }
+    
+    body.theme-crystal .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+      color: white;
+    }
+    
+    body.theme-crystal .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(243,229,245,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-crystal .stat-value {
+      color: #8e24aa;
+    }
+    
+    body.theme-crystal .level-badge {
+      background: linear-gradient(135deg, #e1bee7, #ff9800);
+      color: #7b1fa2;
+    }
+    
+    body.theme-crystal .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(243,229,245,0.9));
+    }
+    
+    /* Forest Theme */
+    body.theme-forest {
+      background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+      color: #2e7d32;
+    }
+    
+    body.theme-forest .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-forest .circle {
+      background: linear-gradient(135deg, #388e3c, #4caf50);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(76,175,80,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-forest .btn {
+      background: linear-gradient(135deg, #388e3c, #4caf50);
+    }
+    
+    body.theme-forest .btn-secondary {
+      background: linear-gradient(135deg, #2e7d32, #1b5e20);
+    }
+    
+    body.theme-forest .btn-accent {
+      background: linear-gradient(135deg, #66bb6a, #81c784);
+    }
+    
+    body.theme-forest .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-forest .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(232,245,232,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-forest .stat-value {
+      color: #2e7d32;
+    }
+    
+    body.theme-forest .level-badge {
+      background: linear-gradient(135deg, #388e3c, #ff9800);
+    }
+    
+    body.theme-forest .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(232,245,232,0.9));
+    }
+    
+    /* Water Theme */
+    body.theme-water {
+      background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+      color: #0277bd;
+    }
+    
+    body.theme-water .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-water .circle {
+      background: linear-gradient(135deg, #29b6f6, #4fc3f7);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(41,182,246,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-water .btn {
+      background: linear-gradient(135deg, #29b6f6, #4fc3f7);
+    }
+    
+    body.theme-water .btn-secondary {
+      background: linear-gradient(135deg, #0288d1, #0277bd);
+    }
+    
+    body.theme-water .btn-accent {
+      background: linear-gradient(135deg, #4fc3f7, #81d4fa);
+    }
+    
+    body.theme-water .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-water .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(225,245,254,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-water .stat-value {
+      color: #0288d1;
+    }
+    
+    body.theme-water .level-badge {
+      background: linear-gradient(135deg, #29b6f6, #ff9800);
+    }
+    
+    body.theme-water .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(225,245,254,0.9));
+    }
+    
+    /* Sunset Theme */
+    body.theme-sunset {
+      background: linear-gradient(135deg, #ffe0b2 0%, #ffcc80 100%);
+      color: #e65100;
+    }
+    
+    body.theme-sunset .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-sunset .circle {
+      background: linear-gradient(135deg, #ff6f00, #ff9800);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(255,111,0,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-sunset .btn {
+      background: linear-gradient(135deg, #ff6f00, #ff9800);
+    }
+    
+    body.theme-sunset .btn-secondary {
+      background: linear-gradient(135deg, #f57c00, #ef6c00);
+    }
+    
+    body.theme-sunset .btn-accent {
+      background: linear-gradient(135deg, #ffb74d, #ffcc80);
+    }
+    
+    body.theme-sunset .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-sunset .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,224,178,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-sunset .stat-value {
+      color: #f57c00;
+    }
+    
+    body.theme-sunset .level-badge {
+      background: linear-gradient(135deg, #ff6f00, #ff9800);
+    }
+    
+    body.theme-sunset .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,224,178,0.9));
+    }
+    
+    /* Blue Theme */
+    body.theme-blue {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      color: #1565c0;
+    }
+    
+    body.theme-blue .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-blue .circle {
+      background: linear-gradient(135deg, #1976d2, #2196f3);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(33,150,243,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-blue .btn {
+      background: linear-gradient(135deg, #1976d2, #2196f3);
+    }
+    
+    body.theme-blue .btn-secondary {
+      background: linear-gradient(135deg, #1565c0, #0d47a1);
+    }
+    
+    body.theme-blue .btn-accent {
+      background: linear-gradient(135deg, #64b5f6, #90caf9);
+    }
+    
+    body.theme-blue .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-blue .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(227,242,253,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-blue .stat-value {
+      color: #1565c0;
+    }
+    
+    body.theme-blue .level-badge {
+      background: linear-gradient(135deg, #1976d2, #ff9800);
+    }
+    
+    body.theme-blue .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(227,242,253,0.9));
+    }
+    
+    /* Purple Theme */
+    body.theme-purple {
+      background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+      color: #7b1fa2;
+    }
+    
+    body.theme-purple .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-purple .circle {
+      background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(156,39,176,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-purple .btn {
+      background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+    }
+    
+    body.theme-purple .btn-secondary {
+      background: linear-gradient(135deg, #6a1b9a, #4a148c);
+    }
+    
+    body.theme-purple .btn-accent {
+      background: linear-gradient(135deg, #ba68c8, #ce93d8);
+    }
+    
+    body.theme-purple .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-purple .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(243,229,245,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-purple .stat-value {
+      color: #7b1fa2;
+    }
+    
+    body.theme-purple .level-badge {
+      background: linear-gradient(135deg, #7b1fa2, #ff9800);
+    }
+    
+    body.theme-purple .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(243,229,245,0.9));
+    }
+    
+    /* Orange Theme */
+    body.theme-orange {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      color: #ef6c00;
+    }
+    
+    body.theme-orange .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-orange .circle {
+      background: linear-gradient(135deg, #f57c00, #ff9800);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(255,152,0,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-orange .btn {
+      background: linear-gradient(135deg, #f57c00, #ff9800);
+    }
+    
+    body.theme-orange .btn-secondary {
+      background: linear-gradient(135deg, #ef6c00, #e65100);
+    }
+    
+    body.theme-orange .btn-accent {
+      background: linear-gradient(135deg, #ffb74d, #ffcc80);
+    }
+    
+    body.theme-orange .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-orange .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,243,224,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-orange .stat-value {
+      color: #f57c00;
+    }
+    
+    body.theme-orange .level-badge {
+      background: linear-gradient(135deg, #f57c00, #ff9800);
+    }
+    
+    body.theme-orange .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,243,224,0.9));
+    }
+    
+    /* Pink Theme */
+    body.theme-pink {
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+      color: #c2185b;
+    }
+    
+    body.theme-pink .header {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-pink .circle {
+      background: linear-gradient(135deg, #c2185b, #e91e63);
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 8px 32px rgba(233,30,99,0.3),
+                  inset 0 0 20px rgba(255,255,255,0.5);
+    }
+    
+    body.theme-pink .btn {
+      background: linear-gradient(135deg, #c2185b, #e91e63);
+    }
+    
+    body.theme-pink .btn-secondary {
+      background: linear-gradient(135deg, #ad1457, #880e4f);
+    }
+    
+    body.theme-pink .btn-accent {
+      background: linear-gradient(135deg, #f48fb1, #f8bbd9);
+    }
+    
+    body.theme-pink .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-pink .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(252,228,236,0.9));
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    
+    body.theme-pink .stat-value {
+      color: #c2185b;
+    }
+    
+    body.theme-pink .level-badge {
+      background: linear-gradient(135deg, #c2185b, #ff9800);
+    }
+    
+    body.theme-pink .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(252,228,236,0.9));
+    }
+    
+    /* Dark Blue Theme */
+    body.theme-dark-blue {
+      background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+      color: #e3f2fd;
+    }
+    
+    body.theme-dark-blue .header {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    body.theme-dark-blue .circle {
+      background: linear-gradient(135deg, #1565c0, #1976d2);
+      border: 6px solid rgba(255,255,255,0.8);
+      box-shadow: 0 8px 32px rgba(21,101,192,0.5),
+                  inset 0 0 20px rgba(255,255,255,0.3);
+    }
+    
+    body.theme-dark-blue .btn {
+      background: linear-gradient(135deg, #1565c0, #1976d2);
+    }
+    
+    body.theme-dark-blue .btn-secondary {
+      background: linear-gradient(135deg, #0d47a1, #08306b);
+    }
+    
+    body.theme-dark-blue .btn-accent {
+      background: linear-gradient(135deg, #42a5f5, #64b5f6);
+    }
+    
+    body.theme-dark-blue .btn-danger {
+      background: linear-gradient(135deg, #f44336, #ef5350);
+    }
+    
+    body.theme-dark-blue .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(30,30,70,0.2));
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #e3f2fd;
+    }
+    
+    body.theme-dark-blue .stat-value {
+      color: #64b5f6;
+    }
+    
+    body.theme-dark-blue .level-badge {
+      background: linear-gradient(135deg, #1565c0, #ff9800);
+    }
+    
+    body.theme-dark-blue .panel {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(30,30,70,0.2));
+      color: #e3f2fd;
+    }
+
+    /* ===== ENHANCED THEME ANIMATIONS ===== */
+    
+    /* Snow Theme Enhanced */
+    body.theme-snow::before {
+      content: '';
+      position: fixed;
+      top: -50px;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: 
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.8) 2%, transparent 3%),
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.6) 1%, transparent 2%),
+        radial-gradient(circle at 50% 30%, rgba(255,255,255,0.9) 3%, transparent 4%),
+        radial-gradient(circle at 70% 40%, rgba(255,255,255,0.7) 2%, transparent 3%),
+        radial-gradient(circle at 90% 50%, rgba(255,255,255,0.5) 1%, transparent 2%);
+      animation: snowFallEnhanced 15s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    @keyframes snowFallEnhanced {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+    
+    /* Fire Theme Enhanced */
+    body.theme-fire .btn {
+      animation: fireGlowEnhanced 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes fireGlowEnhanced {
+      from { 
+        box-shadow: 0 4px 15px rgba(244,67,54,0.4),
+                    inset 0 0 10px rgba(255,87,34,0.3);
+      }
+      to { 
+        box-shadow: 0 4px 25px rgba(244,67,54,0.8), 
+                    0 0 15px rgba(255,87,34,0.6),
+                    inset 0 0 15px rgba(255,152,0,0.4);
+      }
+    }
+    
+    /* Space Theme Enhanced */
+    body.theme-space::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.9) 1px, transparent 2px),
+        radial-gradient(circle at 60% 70%, rgba(255,255,255,0.7) 1px, transparent 2px),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.8) 1px, transparent 2px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.6) 1px, transparent 2px),
+        radial-gradient(circle at 90% 90%, rgba(255,255,255,0.5) 1px, transparent 2px);
+      animation: twinkleEnhanced 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    @keyframes twinkleEnhanced {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      25% { opacity: 0.8; transform: scale(1.1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+      75% { opacity: 0.9; transform: scale(1.05); }
+    }
+    
+    /* Golden Theme Enhanced */
+    body.theme-golden .btn:before {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    }
+    
+    body.theme-golden .level-badge {
+      animation: goldenShineEnhanced 4s ease-in-out infinite;
+      background: linear-gradient(135deg, #ffd700, #ffc400, #ffd700);
+      background-size: 200% 200%;
+    }
+    
+    @keyframes goldenShineEnhanced {
+      0%, 100% { 
+        filter: brightness(1) hue-rotate(0deg);
+        background-position: 0% 50%;
+      }
+      50% { 
+        filter: brightness(1.4) hue-rotate(10deg);
+        background-position: 100% 50%;
+      }
+    }
+    
+    /* Crystal Theme Enhanced */
+    body.theme-crystal .circle {
+      animation: crystalReflectEnhanced 8s ease-in-out infinite;
+      background: linear-gradient(135deg, #e1bee7, #ce93d8, #ba68c8, #e1bee7);
+      background-size: 400% 400%;
+    }
+    
+    @keyframes crystalReflectEnhanced {
+      0%, 100% { 
+        filter: hue-rotate(0deg);
+        background-position: 0% 50%;
+      }
+      50% { 
+        filter: hue-rotate(45deg);
+        background-position: 100% 50%;
+      }
+    }
+    
+    /* Forest Theme Enhanced */
+    body.theme-forest::before {
+      content: '';
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      background: 
+        radial-gradient(ellipse at 10% 100%, #2e7d32 15%, transparent 25%),
+        radial-gradient(ellipse at 30% 100%, #388e3c 20%, transparent 30%),
+        radial-gradient(ellipse at 50% 100%, #4caf50 18%, transparent 28%),
+        radial-gradient(ellipse at 70% 100%, #66bb6a 12%, transparent 22%),
+        radial-gradient(ellipse at 90% 100%, #81c784 8%, transparent 18%);
+      pointer-events: none;
+      z-index: 1;
+      animation: forestBreezeEnhanced 8s ease-in-out infinite;
+    }
+    
+    @keyframes forestBreezeEnhanced {
+      0%, 100% { transform: translateX(0px) scaleX(1); }
+      33% { transform: translateX(-5px) scaleX(1.02); }
+      66% { transform: translateX(5px) scaleX(0.98); }
+    }
+    
+    /* Water Theme Enhanced */
+    body.theme-water .circle {
+      animation: waterRippleEnhanced 6s ease-in-out infinite;
+      background: linear-gradient(135deg, #29b6f6, #4fc3f7, #81d4fa, #29b6f6);
+      background-size: 300% 300%;
+    }
+    
+    @keyframes waterRippleEnhanced {
+      0%, 100% { 
+        transform: scale(1) translateY(0px);
+        background-position: 0% 50%;
+      }
+      33% { 
+        transform: scale(1.03) translateY(-3px);
+        background-position: 50% 50%;
+      }
+      66% { 
+        transform: scale(1.01) translateY(2px);
+        background-position: 100% 50%;
+      }
+    }
+    
+    /* Sunset Theme Enhanced */
+    body.theme-sunset .header {
+      animation: sunsetGlowEnhanced 12s ease-in-out infinite;
+      background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,243,224,0.8), rgba(255,255,255,0.7));
+      background-size: 200% 200%;
+    }
+    
+    @keyframes sunsetGlowEnhanced {
+      0%, 100% { 
+        background-position: 0% 50%;
+        box-shadow: 0 8px 32px rgba(255,111,0,0.2);
+      }
+      50% { 
+        background-position: 100% 50%;
+        box-shadow: 0 8px 40px rgba(255,111,0,0.4);
+      }
+    }
+  </style>
+</head>
+<body class="theme-green">
+<!-- Loading Screen -->
+  <div class="loading">
+    <div class="loader"></div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <h1>📿 سبحة إلكترونية متطورة</h1>
+      <div class="subtitle">تسبيح رقمي بتجربة فريدة وغنية</div>
+    </div>
+
+    <div class="circle-container">
+      <div class="circle" id="circle">
+        <div class="progress-ring"></div>
+        <div class="circle-content">
+          <span class="count" id="count">0</span>
+          <span class="tasbih-text" id="tasbihText">سبحان الله</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-badge">
+      <span>🎯 المستوى: <span id="userLevel">1</span></span>
+      <span style="margin: 0 10px;">•</span>
+      <span>⭐ النقاط: <span id="userPoints">0</span></span>
+      <span style="margin: 0 10px;">•</span>
+      <span>🏆 الإنجازات: <span id="achievementsCount">0</span>/8</span>
+    </div>
+
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-value" id="dailyCount">0</div>
+        <div class="stat-label">تسبيحات اليوم</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-value" id="totalCount">0</div>
+        <div class="stat-label">الإجمالي الكلي</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⏱️</div>
+        <div class="stat-value" id="sessionCount">0</div>
+        <div class="stat-label">هذه الجلسة</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-value" id="bestStreak">0</div>
+        <div class="stat-label">أفضل تتابع</div>
+      </div>
+    </div>
+
+    <div class="buttons-container">
+      <button class="btn" id="resetBtn">🔄 تصفير</button>
+      <button class="btn btn-secondary" id="themeBtn">🎨 الثيمات</button>
+      <button class="btn dark-mode-btn" id="darkModeBtn">🌙 داكن</button>
+      <button class="btn" id="settingsBtn">⚙️ إعدادات</button>
+      <button class="btn btn-secondary" id="achievementsBtn">🏆 الإنجازات</button>
+      <button class="btn btn-accent" id="historyBtn">📈 السجل</button>
+    </div>
+
+    <!-- Theme Panel -->
+    <div class="panel theme-panel" id="themePanel">
+      <h3>🎨 اختر المظهر المفضل</h3>
+      <div class="theme-grid">
+        <div class="theme-option active" data-theme="green" style="background: linear-gradient(135deg, #2e7d32, #4caf50);">أخضر 🌿</div>
+        <div class="theme-option" data-theme="blue" style="background: linear-gradient(135deg, #1976d2, #2196f3);">أزرق 🌊</div>
+        <div class="theme-option" data-theme="purple" style="background: linear-gradient(135deg, #7b1fa2, #9c27b0);">بنفسجي 💜</div>
+        <div class="theme-option" data-theme="orange" style="background: linear-gradient(135deg, #f57c00, #ff9800);">برتقالي 🍊</div>
+        <div class="theme-option" data-theme="pink" style="background: linear-gradient(135deg, #c2185b, #e91e63);">وردي 🌸</div>
+        <div class="theme-option" data-theme="dark-blue" style="background: linear-gradient(135deg, #1565c0, #1976d2);">أزرق داكن 🌌</div>
+        <div class="theme-option" data-theme="golden" style="background: linear-gradient(135deg, #ffd700, #ffc400); color: #ff6f00;">ذهبي 👑</div>
+        <div class="theme-option" data-theme="space" style="background: linear-gradient(135deg, #7c4dff, #651fff);">فضائي 🚀</div>
+        <div class="theme-option" data-theme="snow" style="background: linear-gradient(135deg, #4fc3f7, #29b6f6);">ثلج ❄️</div>
+        <div class="theme-option" data-theme="fire" style="background: linear-gradient(135deg, #ff5722, #ff7043);">نار 🔥</div>
+        <div class="theme-option" data-theme="crystal" style="background: linear-gradient(135deg, #e1bee7, #ce93d8); color: #8e24aa;">كريستال 💎</div>
+        <div class="theme-option" data-theme="forest" style="background: linear-gradient(135deg, #388e3c, #4caf50);">غابة 🌳</div>
+        <div class="theme-option" data-theme="water" style="background: linear-gradient(135deg, #29b6f6, #4fc3f7);">ماء 💧</div>
+                <div class="theme-option" data-theme="sunset" style="background: linear-gradient(135deg, #ff6f00, #ff9800);">غروب 🌅</div>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="panel settings-panel" id="settingsPanel">
+      <h3>⚙️ الإعدادات المتقدمة</h3>
+      
+      <div class="setting-group">
+        <label for="tasbihType">نوع التسبيح:</label>
+        <select id="tasbihType">
+          <option value="33" data-text="سبحان الله">سبحان الله (33 مرة)</option>
+          <option value="33" data-text="الحمد لله">الحمد لله (33 مرة)</option>
+          <option value="34" data-text="الله أكبر">الله أكبر (34 مرة)</option>
+          <option value="100" data-text="لا إله إلا الله">لا إله إلا الله (100 مرة)</option>
+          <option value="100" data-text="أستغفر الله">أستغفر الله (100 مرة)</option>
+        </select>
+      </div>
+      
+      <div class="setting-group">
+        <label for="animationSpeed">سرعة الحركات:</label>
+        <select id="animationSpeed">
+          <option value="slow">بطيئة 🐢</option>
+          <option value="normal">عادية ⚡</option>
+          <option value="fast">سريعة 🚀</option>
+        </select>
+      </div>
+      
+      <button class="btn" id="saveSettingsBtn" style="width: 100%; margin-top: 20px;">💾 حفظ الإعدادات</button>
+    </div>
+
+    <!-- Achievements Panel -->
+    <div class="panel achievements-panel" id="achievementsPanel">
+      <h3>🏆 الإنجازات والميداليات</h3>
+      <div id="achievementsList">
+        <div class="achievement-item" data-id="1">
+          <div class="achievement-icon">🥉</div>
+          <div class="achievement-name">المبتدئ المخلص</div>
+          <div class="achievement-desc">أكمل 100 تسبيحة في المجموع</div>
+          <div class="achievement-progress">0/100</div>
+        </div>
+        <div class="achievement-item" data-id="2">
+          <div class="achievement-icon">🥈</div>
+          <div class="achievement-name">المثابر المجتهد</div>
+          <div class="achievement-desc">أكمل 500 تسبيحة في المجموع</div>
+          <div class="achievement-progress">0/500</div>
+        </div>
+        <div class="achievement-item" data-id="3">
+          <div class="achievement-icon">🥇</div>
+          <div class="achievement-name">المنتج الدؤوب</div>
+          <div class="achievement-desc">أكمل 1000 تسبيحة في المجموع</div>
+          <div class="achievement-progress">0/1000</div>
+        </div>
+        <div class="achievement-item" data-id="4">
+          <div class="achievement-icon">🏆</div>
+          <div class="achievement-name">بطل التسبيح</div>
+          <div class="achievement-desc">أكمل 5000 تسبيحة في المجموع</div>
+          <div class="achievement-progress">0/5000</div>
+        </div>
+        <div class="achievement-item" data-id="5">
+          <div class="achievement-icon">📅</div>
+          <div class="achievement-name">مواظب اليوم</div>
+          <div class="achievement-desc">أكمل 100 تسبيحة في يوم واحد</div>
+          <div class="achievement-progress">0/100</div>
+        </div>
+        <div class="achievement-item" data-id="6">
+          <div class="achievement-icon">⚡</div>
+          <div class="achievement-name">سريع البديهة</div>
+          <div class="achievement-desc">أكمل 50 تسبيحة في دقيقة واحدة</div>
+          <div class="achievement-progress">0/50</div>
+        </div>
+        <div class="achievement-item" data-id="7">
+          <div class="achievement-icon">🌙</div>
+          <div class="achievement-name">عباد الليل</div>
+          <div class="achievement-desc">استخدم التطبيق بعد منتصف الليل</div>
+          <div class="achievement-progress">غير مكتمل</div>
+        </div>
+        <div class="achievement-item" data-id="8">
+          <div class="achievement-icon">🎨</div>
+          <div class="achievement-name">محب الجمال</div>
+          <div class="achievement-desc">جرب جميع الثيمات المتاحة</div>
+          <div class="achievement-progress">1/14</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History Panel -->
+    <div class="panel" id="historyPanel" style="display: none;">
+      <h3>📈 سجل التسبيح</h3>
+      <div id="historyList">
+        <div style="padding: 20px; color: #666; text-align: center;">
+          لا توجد بيانات سابقة حتى الآن
+        </div>
+      </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+  </div>
+
+<script>
+  // ===== APPLICATION CORE =====
+  var app = {
+    // Application State
+    count: 0,
+    dailyCount: 0,
+    totalCount: 0,
+    sessionCount: 0,
+    bestStreak: 0,
+    currentStreak: 0,
+    userLevel: 1,
+    userPoints: 0,
+    achievementsUnlocked: 0,
+    tasbihText: "سبحان الله",
+    limit: 33,
+    currentTheme: "green",
+    darkMode: false,
+    lastClickTime: 0,
+    sessionStartTime: Date.now(),
+    
+    // Settings
+    settings: {
+      animationSpeed: 'normal',
+      autoSave: true,
+      showNotifications: true
+    },
+    
+    // Achievements Data
+    achievements: [
+      { id: 1, name: "المبتدئ المخلص", desc: "أكمل 100 تسبيحة في المجموع", target: 100, unlocked: false, points: 10 },
+      { id: 2, name: "المثابر المجتهد", desc: "أكمل 500 تسبيحة في المجموع", target: 500, unlocked: false, points: 25 },
+      { id: 3, name: "المنتج الدؤوب", desc: "أكمل 1000 تسبيحة في المجموع", target: 1000, unlocked: false, points: 50 },
+      { id: 4, name: "بطل التسبيح", desc: "أكمل 5000 تسبيحة في المجموع", target: 5000, unlocked: false, points: 100 },
+      { id: 5, name: "مواظب اليوم", desc: "أكمل 100 تسبيحة في يوم واحد", target: 100, unlocked: false, points: 30 },
+      { id: 6, name: "سريع البديهة", desc: "أكمل 50 تسبيحة في دقيقة واحدة", target: 50, unlocked: false, points: 40 },
+      { id: 7, name: "عباد الليل", desc: "استخدم التطبيق بعد منتصف الليل", target: 1, unlocked: false, points: 20 },
+      { id: 8, name: "محب الجمال", desc: "جرب جميع الثيمات المتاحة", target: 14, unlocked: false, points: 60 }
+    ],
+    
+    // Themes Data
+    themes: ['green', 'blue', 'purple', 'orange', 'pink', 'dark-blue', 'golden', 'space', 'snow', 'fire', 'crystal', 'forest', 'water', 'sunset'],
+    usedThemes: ['green'],
+    
+    // History Data
+    history: [],
+
+    // ===== INITIALIZATION =====
+    init: function() {
+      this.loadData();
+      this.setupEventListeners();
+      this.updateDisplay();
+      this.applyTheme(this.currentTheme);
+      this.applyDarkMode(this.darkMode);
+      this.checkMidnightAchievement();
+      
+      setTimeout(function() {
+        app.showNotification('مرحباً بك في السبحة الإلكترونية المتطورة! 🌟', 3000);
+      }, 1000);
+      
+      // Hide loading screen
+      setTimeout(function() {
+        document.querySelector('.loading').style.display = 'none';
+      }, 1500);
+    },
+    
+    // ===== DATA MANAGEMENT =====
+    loadData: function() {
+      try {
+        if (localStorage) {
+          this.count = parseInt(localStorage.getItem('count')) || 0;
+          this.dailyCount = parseInt(localStorage.getItem('dailyCount')) || 0;
+          this.totalCount = parseInt(localStorage.getItem('totalCount')) || 0;
+          this.sessionCount = parseInt(localStorage.getItem('sessionCount')) || 0;
+          this.bestStreak = parseInt(localStorage.getItem('bestStreak')) || 0;
+          this.userLevel = parseInt(localStorage.getItem('userLevel')) || 1;
+          this.userPoints = parseInt(localStorage.getItem('userPoints')) || 0;
+          this.achievementsUnlocked = parseInt(localStorage.getItem('achievementsUnlocked')) || 0;
+          this.currentTheme = localStorage.getItem('theme') || 'green';
+          this.darkMode = localStorage.getItem('darkMode') === 'true';
+          
+          // Load settings
+          var savedSettings = localStorage.getItem('settings');
+          if (savedSettings) {
+            this.settings = JSON.parse(savedSettings);
+          }
+          
+          // Load achievements
+          var savedAchievements = localStorage.getItem('achievements');
+          if (savedAchievements) {
+            this.achievements = JSON.parse(savedAchievements);
+          }
+          
+          // Load used themes
+          var savedThemes = localStorage.getItem('usedThemes');
+          if (savedThemes) {
+            this.usedThemes = JSON.parse(savedThemes);
+          }
+          
+          // Load history
+          var savedHistory = localStorage.getItem('history');
+          if (savedHistory) {
+            this.history = JSON.parse(savedHistory);
+          }
+        }
+      } catch(e) {
+        console.log('خطأ في تحميل البيانات');
+      }
+    },
+    
+    saveData: function() {
+      try {
+        if (localStorage) {
+          localStorage.setItem('count', this.count);
+          localStorage.setItem('dailyCount', this.dailyCount);
+          localStorage.setItem('totalCount', this.totalCount);
+          localStorage.setItem('sessionCount', this.sessionCount);
+          localStorage.setItem('bestStreak', this.bestStreak);
+          localStorage.setItem('userLevel', this.userLevel);
+          localStorage.setItem('userPoints', this.userPoints);
+          localStorage.setItem('achievementsUnlocked', this.achievementsUnlocked);
+          localStorage.setItem('theme', this.currentTheme);
+          localStorage.setItem('darkMode', this.darkMode);
+          localStorage.setItem('settings', JSON.stringify(this.settings));
+          localStorage.setItem('achievements', JSON.stringify(this.achievements));
+          localStorage.setItem('usedThemes', JSON.stringify(this.usedThemes));
+          localStorage.setItem('history', JSON.stringify(this.history));
+        }
+      } catch(e) {
+        console.log('خطأ في حفظ البيانات');
+      }
+    },
+    
+    // ===== EVENT HANDLERS =====
+    setupEventListeners: function() {
+      var elements = [
+        { id: 'circle', event: 'click', handler: 'handleClick' },
+        { id: 'resetBtn', event: 'click', handler: 'resetCounter' },
+        { id: 'themeBtn', event: 'click', handler: 'toggleThemePanel' },
+        { id: 'darkModeBtn', event: 'click', handler: 'toggleDarkMode' },
+        { id: 'settingsBtn', event: 'click', handler: 'toggleSettingsPanel' },
+        { id: 'achievementsBtn', event: 'click', handler: 'toggleAchievementsPanel' },
+        { id: 'historyBtn', event: 'click', handler: 'toggleHistoryPanel' },
+        { id: 'saveSettingsBtn', event: 'click', handler: 'saveSettings' }
+      ];
+      
+      for (var i = 0; i < elements.length; i++) {
+        var element = document.getElementById(elements[i].id);
+        if (element) {
+          element.addEventListener(elements[i].event, this[elements[i].handler].bind(this));
+          element.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            this.click();
+          }.bind(element));
+        }
+      }
+      
+      // Theme options
+      var themeOptions = document.querySelectorAll('.theme-option');
+      for (var j = 0; j < themeOptions.length; j++) {
+        themeOptions[j].addEventListener('click', function() {
+          app.changeTheme(this.getAttribute('data-theme'));
+        });
+      }
+      
+      // Settings changes
+      document.getElementById('tasbihType').addEventListener('change', this.updateTasbihSettings.bind(this));
+      document.getElementById('animationSpeed').addEventListener('change', this.updateAnimationSettings.bind(this));
+    },
+    
+    // ===== MAIN CLICK HANDLER =====
+    handleClick: function() {
+      var currentTime = Date.now();
+      var timeDiff = currentTime - this.lastClickTime;
+      
+      // Prevent rapid clicking
+      if (timeDiff < 100) return;
+      
+      this.lastClickTime = currentTime;
+      this.count++;
+      this.dailyCount++;
+      this.totalCount++;
+      this.sessionCount++;
+      this.currentStreak++;
+      
+      // Update best streak
+      if (this.currentStreak > this.bestStreak) {
+        this.bestStreak = this.currentStreak;
+      }
+      
+      this.userPoints += this.calculatePoints();
+      this.updateDisplay();
+      this.saveData();
+      
+      // Visual effects
+      this.animateCircle();
+      this.updateProgressRing();
+      
+      // Check for milestone
+      if (this.count % this.limit === 0) {
+        this.handleMilestone();
+      }
+      
+      // Check achievements
+      this.checkAchievements();
+      this.updateLevel();
+      
+      // Add to history
+      this.addToHistory();
+    },
+    
+    // ===== VISUAL EFFECTS =====
+    animateCircle: function() {
+      var circle = document.getElementById('circle');
+      circle.classList.add('pulse');
+      setTimeout(function() {
+        circle.classList.remove('pulse');
+      }, 300);
+    },
+    
+    updateProgressRing: function() {
+      var progress = (this.count % this.limit) / this.limit;
+      var circle = document.getElementById('circle');
+      
+      if (progress === 0) {
+        circle.classList.add('active');
+      } else {
+        circle.classList.remove('active');
+      }
+    },
+    
+    // ===== THEME SYSTEM =====
+    changeTheme: function(theme) {
+      this.currentTheme = theme;
+      
+      // Add to used themes if not already there
+      if (this.usedThemes.indexOf(theme) === -1) {
+        this.usedThemes.push(theme);
+        this.checkThemeAchievement();
+      }
+      
+      this.applyTheme(theme);
+      this.saveData();
+      this.showNotification('تم تطبيق الثيم: ' + this.getThemeName(theme) + ' 🎨');
+      
+      this.updateActiveTheme(theme);
+    },
+    
+    applyTheme: function(theme) {
+      // Remove all theme classes
+      var body = document.body;
+      var themeClasses = body.className.split(' ').filter(function(className) {
+        return className.startsWith('theme-');
+      });
+      
+      for (var i = 0; i < themeClasses.length; i++) {
+        body.classList.remove(themeClasses[i]);
+      }
+      
+      // Add new theme class
+      body.classList.add('theme-' + theme);
+      
+      // Apply theme-specific effects
+      this.applyThemeEffects(theme);
+    },
+    
+    applyThemeEffects: function(theme) {
+      var circle = document.getElementById('circle');
+      var existingEffects = circle.querySelectorAll('.theme-effect');
+      
+      // Remove existing effects
+      for (var i = 0; i < existingEffects.length; i++) {
+        circle.removeChild(existingEffects[i]);
+      }
+      
+      // Add new effect based on theme
+      var effectDiv = document.createElement('div');
+      effectDiv.className = 'theme-effect';
+      
+      switch(theme) {
+        case 'golden':
+          effectDiv.className += ' gold-effect';
+          break;
+        case 'snow':
+          effectDiv.className += ' snow-effect';
+          break;
+        case 'fire':
+          effectDiv.className += ' fire-effect';
+          break;
+        case 'crystal':
+          effectDiv.className += ' crystal-effect';
+          break;
+        case 'forest':
+          effectDiv.className += ' forest-effect';
+          break;
+        case 'space':
+          effectDiv.className += ' space-effect';
+          break;
+        case 'water':
+          effectDiv.className += ' water-effect';
+          break;
+        case 'sunset':
+          effectDiv.className += ' sunset-effect';
+          break;
+      }
+      
+      if (effectDiv.className !== 'theme-effect') {
+        circle.appendChild(effectDiv);
+      }
+    },
+    
+    updateActiveTheme: function(theme) {
+      var themeOptions = document.querySelectorAll('.theme-option');
+      for (var i = 0; i < themeOptions.length; i++) {
+        themeOptions[i].classList.remove('active');
+        if (themeOptions[i].getAttribute('data-theme') === theme) {
+          themeOptions[i].classList.add('active');
+        }
+      }
+    },
+    
+    getThemeName: function(theme) {
+      var themeNames = {
+        'green': 'أخضر 🌿',
+        'blue': 'أزرق 🌊',
+        'purple': 'بنفسجي 💜',
+        'orange': 'برتقالي 🍊',
+        'pink': 'وردي 🌸',
+        'dark-blue': 'أزرق داكن 🌌',
+        'golden': 'ذهبي 👑',
+        'space': 'فضائي 🚀',
+        'snow': 'ثلج ❄️',
+        'fire': 'نار 🔥',
+        'crystal': 'كريستال 💎',
+        'forest': 'غابة 🌳',
+        'water': 'ماء 💧',
+        'sunset': 'غروب 🌅'
+      };
+      return themeNames[theme] || theme;
+    },
+    
+    // ===== DARK MODE =====
+    toggleDarkMode: function() {
+      this.darkMode = !this.darkMode;
+      this.applyDarkMode(this.darkMode);
+      this.saveData();
+      this.showNotification('الوضع: ' + (this.darkMode ? 'داكن 🌙' : 'فاتح ☀️'));
+    },
+    
+    applyDarkMode: function(isDark) {
+      var body = document.body;
+      var darkModeBtn = document.getElementById('darkModeBtn');
+      
+      if (isDark) {
+        body.classList.add('dark-mode');
+        darkModeBtn.textContent = '☀️ فاتح';
+        darkModeBtn.style.background = 'linear-gradient(135deg, #ff9800, #ffb74d)';
+      } else {
+        body.classList.remove('dark-mode');
+        darkModeBtn.textContent = '🌙 داكن';
+        darkModeBtn.style.background = 'linear-gradient(135deg, #666, #999)';
+      }
+    },
+    
+    // ===== SETTINGS MANAGEMENT =====
+    toggleSettingsPanel: function() {
+      var panel = document.getElementById('settingsPanel');
+      this.hideAllPanels();
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+      this.loadSettingsIntoForm();
+    },
+    
+    loadSettingsIntoForm: function() {
+      document.getElementById('tasbihType').value = this.limit;
+      document.getElementById('animationSpeed').value = this.settings.animationSpeed;
+    },
+    
+    updateTasbihSettings: function() {
+      var select = document.getElementById('tasbihType');
+      var selectedOption = select.options[select.selectedIndex];
+      this.limit = parseInt(selectedOption.value);
+      this.tasbihText = selectedOption.getAttribute('data-text');
+      this.updateDisplay();
+    },
+    
+    updateAnimationSettings: function() {
+      var speed = document.getElementById('animationSpeed').value;
+      this.settings.animationSpeed = speed;
+      this.applyAnimationSpeed(speed);
+    },
+    
+    applyAnimationSpeed: function(speed) {
+      var multipliers = { slow: 1.5, normal: 1, fast: 0.5 };
+      var multiplier = multipliers[speed] || 1;
+      
+      // Update CSS variables for animation speed
+      document.documentElement.style.setProperty('--animation-multiplier', multiplier);
+    },
+    
+    saveSettings: function() {
+      this.updateTasbihSettings();
+      this.updateAnimationSettings();
+      this.saveData();
+      this.showNotification('✅ تم حفظ الإعدادات بنجاح');
+      document.getElementById('settingsPanel').style.display = 'none';
+    },
+    
+    // ===== ACHIEVEMENTS SYSTEM =====
+    toggleAchievementsPanel: function() {
+      var panel = document.getElementById('achievementsPanel');
+      this.hideAllPanels();
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+      this.updateAchievementsDisplay();
+    },
+    
+    updateAchievementsDisplay: function() {
+      var achievementsList = document.getElementById('achievementsList');
+      achievementsList.innerHTML = '';
+      
+      for (var i = 0; i < this.achievements.length; i++) {
+        var achievement = this.achievements[i];
+        var progress = this.calculateAchievementProgress(achievement);
+        var percentage = Math.min((progress / achievement.target) * 100, 100);
+        
+        var item = document.createElement('div');
+        item.className = 'achievement-item' + (achievement.unlocked ? ' unlocked' : '');
+        item.innerHTML = `
+          <div class="achievement-icon">${this.getAchievementIcon(achievement)}</div>
+          <div class="achievement-name">${achievement.name}</div>
+          <div class="achievement-desc">${achievement.desc}</div>
+          <div class="achievement-progress">
+            ${achievement.unlocked ? '✅ مكتمل' : percentage.toFixed(0) + '% (' + progress + '/' + achievement.target + ')'}
+          </div>
+        `;
+        achievementsList.appendChild(item);
+      }
+    },
+    
+    calculateAchievementProgress: function(achievement) {
+      switch(achievement.id) {
+        case 1: case 2: case 3: case 4:
+          return this.totalCount;
+        case 5:
+          return this.dailyCount;
+        case 6:
+          return this.currentStreak;
+        case 7:
+          return this.checkMidnightAchievement() ? 1 : 0;
+        case 8:
+          return this.usedThemes.length;
+        default:
+          return 0;
+      }
+    },
+    
+    getAchievementIcon: function(achievement) {
+      var icons = ['🥉', '🥈', '🥇', '🏆', '📅', '⚡', '🌙', '🎨'];
+      return icons[achievement.id - 1] || '✅';
+    },
+    
+    checkAchievements: function() {
+      var unlockedNew = false;
+      
+      for (var i = 0; i < this.achievements.length; i++) {
+        var achievement = this.achievements[i];
+        if (!achievement.unlocked) {
+          var progress = this.calculateAchievementProgress(achievement);
+          
+          if (progress >= achievement.target) {
+            achievement.unlocked = true;
+            this.achievementsUnlocked++;
+            this.userPoints += achievement.points;
+            unlockedNew = true;
+            this.showAchievementUnlocked(achievement);
+          }
+        }
+      }
+      
+      if (unlockedNew) {
+        this.saveData();
+        this.updateDisplay();
+      }
+    },
+    
+    checkThemeAchievement: function() {
+      if (this.usedThemes.length >= this.themes.length) {
+        for (var i = 0; i < this.achievements.length; i++) {
+          if (this.achievements[i].id === 8 && !this.achievements[i].unlocked) {
+            this.achievements[i].unlocked = true;
+            this.achievementsUnlocked++;
+            this.userPoints += this.achievements[i].points;
+            this.showAchievementUnlocked(this.achievements[i]);
+            this.saveData();
+            this.updateDisplay();
+          }
+        }
+      }
+    },
+    
+    checkMidnightAchievement: function() {
+      var now = new Date();
+      return now.getHours() >= 0 && now.getHours() < 4; // منتصف الليل إلى 4 صباحاً
+    },
+    
+    showAchievementUnlocked: function(achievement) {
+      this.showNotification('🎉 إنجاز جديد: ' + achievement.name + ' +' + achievement.points + ' نقطة', 4000);
+      this.createConfetti();
+      
+      // تأثير خاص للإنجاز
+      var circle = document.getElementById('circle');
+      circle.classList.add('vibrate');
+      setTimeout(function() {
+        circle.classList.remove('vibrate');
+      }, 1000);
+    },
+    
+    // ===== HISTORY SYSTEM =====
+    toggleHistoryPanel: function() {
+      var panel = document.getElementById('historyPanel');
+      this.hideAllPanels();
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+      this.updateHistoryDisplay();
+    },
+    
+    addToHistory: function() {
+      var now = new Date();
+      var historyEntry = {
+        date: now.toLocaleDateString('ar-EG'),
+        time: now.toLocaleTimeString('ar-EG'),
+        count: this.count,
+        type: this.tasbihText,
+        timestamp: now.getTime()
+      };
+      
+      this.history.unshift(historyEntry);
+      
+      // حفظ فقط آخر 50 إدخال
+      if (this.history.length > 50) {
+        this.history = this.history.slice(0, 50);
+      }
+    },
+    
+    updateHistoryDisplay: function() {
+      var historyList = document.getElementById('historyList');
+      
+      if (this.history.length === 0) {
+        historyList.innerHTML = '<div style="padding: 20px; color: #666; text-align: center;">لا توجد بيانات سابقة حتى الآن</div>';
+        return;
+      }
+      
+      historyList.innerHTML = '';
+      
+      for (var i = 0; i < Math.min(this.history.length, 10); i++) {
+        var entry = this.history[i];
+        var item = document.createElement('div');
+        item.className = 'achievement-item';
+        item.innerHTML = `
+          <div style="float: left; font-size: 12px; color: #999;">${entry.time}</div>
+          <div class="achievement-name">${entry.date}</div>
+          <div class="achievement-desc">${entry.type} - العدد: ${entry.count}</div>
+        `;
+        historyList.appendChild(item);
+      }
+    },
+    
+    // ===== UTILITY FUNCTIONS =====
+    hideAllPanels: function() {
+      var panels = document.querySelectorAll('.panel');
+      for (var i = 0; i < panels.length; i++) {
+        panels[i].style.display = 'none';
+      }
+    },
+    
+    calculatePoints: function() {
+      // نظام نقاط ديناميكي
+      var basePoints = 1;
+      var streakBonus = Math.min(Math.floor(this.currentStreak / 10), 5);
+      var levelBonus = Math.floor(this.userLevel / 5);
+      return basePoints + streakBonus + levelBonus;
+    },
+    
+    handleMilestone: function() {
+      this.showNotification('🎊 مبروك! أكملت ' + this.count + ' تسبيحة من نوع ' + this.tasbihText, 3000);
+      
+      var circle = document.getElementById('circle');
+      circle.classList.add('glow');
+      setTimeout(function() {
+        circle.classList.remove('glow');
+      }, 2000);
+      
+      this.createConfetti();
+      this.currentStreak = 0; // إعادة تعيين التتابع بعد إكمال الدائرة
+    },
+    
+    createConfetti: function() {
+      var colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b', '#6c5ce7', '#a29bfe'];
+      
+      for (var i = 0; i < 15; i++) {
+        setTimeout(function() {
+          var confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + 'vw';
+          confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+          confetti.style.animationDelay = (Math.random() * 1) + 's';
+          document.body.appendChild(confetti);
+          
+          setTimeout(function() {
+            if (confetti.parentNode) {
+              confetti.parentNode.removeChild(confetti);
+            }
+          }, 3000);
+        }, i * 100);
+      }
+    },
+    
+    resetCounter: function() {
+      if (confirm('هل تريد تصفير العداد الحالي؟ سيتم الاحتفاظ بالإحصائيات الكلية.')) {
+        this.count = 0;
+        this.sessionCount = 0;
+        this.currentStreak = 0;
+        this.updateDisplay();
+        this.saveData();
+        this.showNotification('🔄 تم تصفير العداد الحالي');
+      }
+    },
+    
+    updateLevel: function() {
+      var newLevel = Math.floor(this.userPoints / 100) + 1;
+      if (newLevel > this.userLevel) {
+        this.userLevel = newLevel;
+        this.showNotification('🎊 مستوى جديد! أنت الآن في المستوى ' + this.userLevel, 4000);
+        this.createConfetti();
+      }
+    },
+    
+    updateDisplay: function() {
+      document.getElementById('count').textContent = this.count;
+      document.getElementById('dailyCount').textContent = this.dailyCount;
+      document.getElementById('totalCount').textContent = this.totalCount;
+      document.getElementById('sessionCount').textContent = this.sessionCount;
+      document.getElementById('bestStreak').textContent = this.bestStreak;
+      document.getElementById('userLevel').textContent = this.userLevel;
+      document.getElementById('userPoints').textContent = this.userPoints;
+      document.getElementById('achievementsCount').textContent = this.achievementsUnlocked;
+      document.getElementById('tasbihText').textContent = this.tasbihText;
+    },
+    
+    showNotification: function(message, duration) {
+      if (!this.settings.showNotifications) return;
+      
+      var notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.style.display = 'block';
+      
+      setTimeout(function() {
+        notification.classList.add('hide');
+        setTimeout(function() {
+          notification.style.display = 'none';
+          notification.classList.remove('hide');
+        }, 300);
+      }, duration || 2000);
+    },
+    
+    toggleThemePanel: function() {
+      var panel = document.getElementById('themePanel');
+      this.hideAllPanels();
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+  };
+
+  // ===== INITIALIZATION =====
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      app.init();
+    });
+  } else {
+    app.init();
+  }
+
+  // ===== TOUCH SUPPORT FOR OLD DEVICES =====
+  document.addEventListener('touchstart', function(e) {
+    if (e.target.tagName === 'BUTTON' || e.target.closest('.circle')) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // ===== ENHANCED THEME EFFECTS =====
+  
+  // Dynamic background patterns for each theme
+  function createThemeBackground(theme) {
+    // Remove existing background patterns
+    const existingPattern = document.getElementById('theme-background-pattern');
+    if (existingPattern) {
+      existingPattern.remove();
+    }
+    
+    const pattern = document.createElement('div');
+    pattern.id = 'theme-background-pattern';
+    pattern.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.1;
+    `;
+    
+    switch(theme) {
+      case 'snow':
+        pattern.innerHTML = `
+          <div style="position: absolute; width: 100%; height: 100%; background: 
+            radial-gradient(circle at 20% 10%, white 2px, transparent 3px),
+            radial-gradient(circle at 40% 20%, white 1px, transparent 2px),
+            radial-gradient(circle at 60% 30%, white 3px, transparent 4px),
+            radial-gradient(circle at 80% 40%, white 2px, transparent 3px);
+            animation: snowDrift 20s linear infinite;">
+          </div>
+        `;
+        break;
+        
+      case 'fire':
+        pattern.innerHTML = `
+          <div style="position: absolute; width: 100%; height: 100%; background: 
+            radial-gradient(ellipse at 30% 80%, #ff5722 10%, transparent 20%),
+            radial-gradient(ellipse at 70% 90%, #ff9800 15%, transparent 25%);
+            animation: fireFlickerBg 3s ease-in-out infinite alternate;">
+          </div>
+        `;
+        break;
+        
+      case 'space':
+        pattern.innerHTML = `
+          <div style="position: absolute; width: 100%; height: 100%; background: 
+            radial-gradient(circle at 15% 25%, #b388ff 1px, transparent 2px),
+            radial-gradient(circle at 85% 75%, #7c4dff 2px, transparent 3px),
+            radial-gradient(circle at 50% 50%, #e1f5fe 1px, transparent 2px);
+            animation: starTwinkle 4s ease-in-out infinite;">
+          </div>
+        `;
+        break;
+        
+      case 'golden':
+        pattern.innerHTML = `
+          <div style="position: absolute; width: 100%; height: 100%; background: 
+            radial-gradient(circle at 25% 75%, #ffd700 5%, transparent 10%),
+            radial-gradient(circle at 75% 25%, #ffc400 3%, transparent 8%);
+            animation: goldenGlow 6s ease-in-out infinite alternate;">
+          </div>
+        `;
+        break;
+        
+      case 'crystal':
+        pattern.innerHTML = `
+          <div style="position: absolute; width: 100%; height: 100%; background: 
+            conic-gradient(from 45deg at 25% 25%, #e1bee7, #ce93d8, #ba68c8, #e1bee7);
+            animation: crystalShift 8s linear infinite;">
+          </div>
+        `;
+        break;
+        
+      case 'forest':
+        pattern.innerHTML = `
+          <div style="position: absolute; width: 100%; height: 100%; background: 
+            radial-gradient(ellipse at 20% 90%, #388e3c 15%, transparent 20%),
+            radial-gradient(ellipse at 80% 95%, #4caf50 10%, transparent 15%);
+            animation: forestBreeze 10s ease-in-out infinite;">
+          </div>
+        `;
+        break;
+        
+      case 'water':
+        pattern.innerHTML = `
+          <div style="position: absolute; width: 100%; height: 100%; background: 
+            radial-gradient(circle at 30% 70%, #29b6f6 10%, transparent 15%),
+            radial-gradient(circle at 70% 30%, #4fc3f7 8%, transparent 12%);
+            animation: waterFlowBg 8s ease-in-out infinite;">
+          </div>
+        `;
+        break;
+        
+      case 'sunset':
+                pattern.innerHTML = `
+          <div style="position: absolute; width: 100%; height: 100%; background: 
+            radial-gradient(ellipse at 50% 100%, #ff6f00 20%, transparent 30%),
+            radial-gradient(ellipse at 50% 0%, #ff9800 15%, transparent 25%);
+            animation: sunsetGradient 12s ease-in-out infinite alternate;">
+          </div>
+        `;
+        break;
+        
+      default:
+        pattern.innerHTML = '';
+    }
+    
+    document.body.appendChild(pattern);
+    
+    // Add theme-specific animations to style
+    const style = document.createElement('style');
+    style.id = 'theme-animations';
+    if (!document.getElementById('theme-animations')) {
+      document.head.appendChild(style);
+    }
+    
+    style.textContent = `
+      @keyframes snowDrift {
+        0% { transform: translateY(-100px) translateX(0px); }
+        100% { transform: translateY(100vh) translateX(100px); }
+      }
+      
+      @keyframes fireFlickerBg {
+        0% { opacity: 0.3; transform: scale(1); }
+        100% { opacity: 0.6; transform: scale(1.1); }
+      }
+      
+      @keyframes starTwinkle {
+        0%, 100% { opacity: 0.1; }
+        50% { opacity: 0.3; }
+      }
+      
+      @keyframes goldenGlow {
+        0% { opacity: 0.05; }
+        100% { opacity: 0.15; }
+      }
+      
+      @keyframes crystalShift {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      @keyframes forestBreeze {
+        0%, 100% { transform: translateX(0px) scale(1); }
+        50% { transform: translateX(-10px) scale(1.02); }
+      }
+      
+      @keyframes waterFlowBg {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-20px) scale(1.05); }
+      }
+      
+      @keyframes sunsetGradient {
+        0% { opacity: 0.1; }
+        100% { opacity: 0.2; }
+      }
+    `;
+  }
+
+  // Enhanced theme application with animations
+  const originalApplyTheme = app.applyTheme;
+  app.applyTheme = function(theme) {
+    originalApplyTheme.call(this, theme);
+    createThemeBackground(theme);
+    this.applyButtonAnimations(theme);
+  };
+
+  // Theme-specific button animations
+  app.applyButtonAnimations = function(theme) {
+    const buttons = document.querySelectorAll('.btn');
+    
+    buttons.forEach(btn => {
+      // Remove existing animations
+      btn.style.animation = '';
+      
+      switch(theme) {
+        case 'snow':
+          btn.style.animation = 'snowButtonGlow 3s ease-in-out infinite';
+          break;
+        case 'fire':
+          btn.style.animation = 'fireButtonPulse 2s ease-in-out infinite';
+          break;
+        case 'space':
+          btn.style.animation = 'spaceButtonFloat 4s ease-in-out infinite';
+          break;
+        case 'golden':
+          btn.style.animation = 'goldenButtonShine 3s ease-in-out infinite';
+          break;
+        case 'crystal':
+          btn.style.animation = 'crystalButtonSparkle 5s ease-in-out infinite';
+          break;
+        case 'forest':
+          btn.style.animation = 'forestButtonGrow 6s ease-in-out infinite';
+          break;
+        case 'water':
+          btn.style.animation = 'waterButtonRipple 4s ease-in-out infinite';
+          break;
+        case 'sunset':
+          btn.style.animation = 'sunsetButtonWarm 5s ease-in-out infinite';
+          break;
+      }
+    });
+    
+    // Add button animations to style
+    const style = document.createElement('style');
+    style.id = 'button-animations';
+    if (!document.getElementById('button-animations')) {
+      document.head.appendChild(style);
+    }
+    
+    style.textContent = `
+      @keyframes snowButtonGlow {
+        0%, 100% { box-shadow: 0 4px 15px rgba(41, 182, 246, 0.4); }
+        50% { box-shadow: 0 4px 20px rgba(41, 182, 246, 0.8), 0 0 15px rgba(255, 255, 255, 0.6); }
+      }
+      
+      @keyframes fireButtonPulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4); }
+        50% { transform: scale(1.02); box-shadow: 0 4px 20px rgba(255, 87, 34, 0.8); }
+      }
+      
+      @keyframes spaceButtonFloat {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-3px); }
+      }
+      
+      @keyframes goldenButtonShine {
+        0%, 100% { filter: brightness(1); }
+        50% { filter: brightness(1.2); }
+      }
+      
+      @keyframes crystalButtonSparkle {
+        0%, 100% { filter: hue-rotate(0deg); }
+        50% { filter: hue-rotate(45deg); }
+      }
+      
+      @keyframes forestButtonGrow {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.01); }
+      }
+      
+      @keyframes waterButtonRipple {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+      }
+      
+      @keyframes sunsetButtonWarm {
+        0%, 100% { filter: brightness(1); }
+        50% { filter: brightness(1.1); }
+      }
+    `;
+  };
+
+  // Enhanced circle animations for each theme
+  app.applyCircleThemeEffects = function(theme) {
+    const circle = document.getElementById('circle');
+    
+    // Remove existing animations
+    circle.style.animation = '';
+    
+    switch(theme) {
+      case 'snow':
+        circle.style.animation = 'snowCircleSpin 8s linear infinite';
+        break;
+      case 'fire':
+        circle.style.animation = 'fireCirclePulse 3s ease-in-out infinite';
+        break;
+      case 'space':
+        circle.style.animation = 'spaceCircleOrbit 10s linear infinite';
+        break;
+      case 'golden':
+        circle.style.animation = 'goldenCircleRadiance 6s ease-in-out infinite';
+        break;
+      case 'crystal':
+        circle.style.animation = 'crystalCirclePrism 7s linear infinite';
+        break;
+      case 'forest':
+        circle.style.animation = 'forestCircleBreath 5s ease-in-out infinite';
+        break;
+      case 'water':
+        circle.style.animation = 'waterCircleWave 4s ease-in-out infinite';
+        break;
+      case 'sunset':
+        circle.style.animation = 'sunsetCircleGlow 8s ease-in-out infinite';
+        break;
+    }
+    
+    // Add circle animations to style
+    const style = document.createElement('style');
+    style.id = 'circle-animations';
+    if (!document.getElementById('circle-animations')) {
+      document.head.appendChild(style);
+    }
+    
+    style.textContent = `
+      @keyframes snowCircleSpin {
+        0% { transform: rotate(0deg) scale(1); }
+        100% { transform: rotate(360deg) scale(1); }
+      }
+      
+      @keyframes fireCirclePulse {
+        0%, 100% { transform: scale(1); filter: brightness(1); }
+        50% { transform: scale(1.05); filter: brightness(1.2); }
+      }
+      
+      @keyframes spaceCircleOrbit {
+        0% { transform: rotate(0deg) scale(1); }
+        100% { transform: rotate(360deg) scale(1); }
+      }
+      
+      @keyframes goldenCircleRadiance {
+        0%, 100% { box-shadow: 0 8px 32px rgba(255, 215, 0, 0.4); }
+        50% { box-shadow: 0 8px 40px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 255, 255, 0.6); }
+      }
+      
+      @keyframes crystalCirclePrism {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      
+      @keyframes forestCircleBreath {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+      }
+      
+      @keyframes waterCircleWave {
+        0%, 100% { transform: scale(1) translateY(0px); }
+        50% { transform: scale(1.02) translateY(-5px); }
+      }
+      
+      @keyframes sunsetCircleGlow {
+        0%, 100% { filter: brightness(1); }
+        50% { filter: brightness(1.15); }
+      }
+    `;
+  };
+
+  // Override the applyThemeEffects to include circle animations
+  const originalApplyThemeEffects = app.applyThemeEffects;
+  app.applyThemeEffects = function(theme) {
+    originalApplyThemeEffects.call(this, theme);
+    this.applyCircleThemeEffects(theme);
+  };
+
+  // Enhanced notification system with theme colors
+  const originalShowNotification = app.showNotification;
+  app.showNotification = function(message, duration) {
+    if (!this.settings.showNotifications) return;
+    
+    const notification = document.getElementById('notification');
+    
+    // Apply theme-specific notification style
+    switch(this.currentTheme) {
+      case 'snow':
+        notification.style.background = 'linear-gradient(135deg, #29b6f6, #4fc3f7)';
+        break;
+      case 'fire':
+        notification.style.background = 'linear-gradient(135deg, #ff5722, #ff7043)';
+        break;
+      case 'space':
+        notification.style.background = 'linear-gradient(135deg, #7c4dff, #651fff)';
+        break;
+      case 'golden':
+        notification.style.background = 'linear-gradient(135deg, #ffd700, #ffc400)';
+        break;
+      case 'crystal':
+        notification.style.background = 'linear-gradient(135deg, #e1bee7, #ce93d8)';
+        break;
+      case 'forest':
+        notification.style.background = 'linear-gradient(135deg, #388e3c, #4caf50)';
+        break;
+      case 'water':
+        notification.style.background = 'linear-gradient(135deg, #29b6f6, #4fc3f7)';
+        break;
+      case 'sunset':
+        notification.style.background = 'linear-gradient(135deg, #ff6f00, #ff9800)';
+        break;
+      default:
+        notification.style.background = 'linear-gradient(135deg, #4caf50, #66bb6a)';
+    }
+    
+    originalShowNotification.call(this, message, duration);
+  };
+
+  // Initialize theme enhancements on app start
+  const originalInit = app.init;
+  app.init = function() {
+    originalInit.call(this);
+    
+    // Apply initial theme enhancements
+    setTimeout(() => {
+      createThemeBackground(this.currentTheme);
+      this.applyButtonAnimations(this.currentTheme);
+      this.applyCircleThemeEffects(this.currentTheme);
+    }, 100);
+  };
+
+  // ===== SERVICE WORKER FOR PWA SUPPORT =====
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+        console.log('SW registered: ', registration);
+      }).catch(function(registrationError) {
+        console.log('SW registration failed: ', registrationError);
+      });
+    });
+  }
+
+  // ===== OFFLINE SUPPORT =====
+  window.addEventListener('online', function() {
+    app.showNotification('✅ تم استعادة الاتصال بالإنترنت');
+  });
+
+  window.addEventListener('offline', function() {
+    app.showNotification('⚠️ أنت غير متصل بالإنترنت - التطبيق يعمل بشكل محلي');
+  });
+
+  // ===== BEFORE INSTALL PROMPT =====
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    setTimeout(function() {
+      if (deferredPrompt && confirm('هل تريد تثبيت التطبيق على جهازك؟')) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            app.showNotification('✅ تم تثبيت التطبيق بنجاح');
+          }
+          deferredPrompt = null;
+        });
+      }
+    }, 5000);
+  });
+
+  // ===== ERROR HANDLING =====
+  window.addEventListener('error', function(e) {
+    console.error('Error: ', e.error);
+  });
+
+  window.addEventListener('unhandledrejection', function(e) {
+    console.error('Unhandled Promise Rejection: ', e.reason);
+  });
+
+  // ===== VISIBILITY CHANGE =====
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      // الصفحة غير مرئية - توفير البطارية
+      app.saveData();
+    }
+  });
+
+  console.log('🚀 تطبيق السبحة الإلكترونية جاهز للاستخدام مع تأثيرات الثيمات المحسنة!');
+</script>
+</body>
+</html>
